@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Extension's Popup</title>
+    <style>
+      body {
+        min-width: 400px;
+        max-width: 800px;
+        overflow-x: hidden;
+
+        font-family: Arial, Verdana, Sans-serif;
+      }
+
+      .tweet {
+      	margin: 0 0;
+      	padding: 10px 0 ;
+      	border-bottom: 1px solid #999;
+      	width: 100%;
+      }
+
+      img {
+        margin: 0 20px 0 10px;
+        border: 2px solid black;
+        vertical-align: middle;
+        width: 75px;
+        height: 75px;
+        float: right;
+      }
+
+      h1 {
+      	font-size: 20px;
+      	margin: 0;
+      }
+
+      h3 {
+      	margin: 0 0 10px;
+      	font-size: 12px;
+      }
+
+      .username {
+      	color: #999;
+      }
+
+      .clearfix:after {
+      	content: ".";
+      	display: block;
+      	clear: both;
+      	visibility: hidden;
+      	line-height: 0;
+      	height: 0;
+      }
+
+      .clearfix {
+      	display: inline-block;
+      }
+
+      html[xmlns] .clearfix {
+      	display: block;
+      }
+
+      * html .clearfix {
+      	height: 1%;
+      }
+    </style>
+
+    <!--
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: http://developer.chrome.com/extensions/contentSecurityPolicy.html
+     -->
+    <script src="popup.js"></script>
+  </head>
+  <body>
+  </body>
+</html>
+

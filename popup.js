@@ -1,5 +1,5 @@
 
-var SEARCH_QUERY = 'hashtag';
+var SEARCH_QUERY = 'snooker';
 
 var TwitterSearch = {
 
@@ -29,7 +29,10 @@ var TwitterSearch = {
    * @private
    */
   _showTweets: function (e) {
-    var hashtag, tweets, myDiv, myImg, myH3, myText;
+
+    var hashtag, tweets, myDiv, myImg, myH3, myText,
+        usernameUrl, statusUrl, myImgAnchor, username,
+        display_name, spacer;
 
     this._removeLoadingOverlay();
 
@@ -41,22 +44,53 @@ var TwitterSearch = {
     tweets = JSON.parse(e.target.response).results;
 
     for (var i = 0; i < tweets.length; i++) {
+
+      usernameUrl = 'https://twitter.com/' + tweets[i].from_user;
+      statusUrl = usernameUrl + '/status/' + tweets[i].id;
+
       myDiv = document.createElement("div");
       myDiv.className = 'tweet clearfix';
+
+      myImgAnchor = document.createElement('a');
+      myImgAnchor.className = 'profile_image';
+      myImgAnchor.href = usernameUrl;
+      myImgAnchor.display = 'block';
 
       myImg = document.createElement('img');
       myImg.src = tweets[i].profile_image_url;
 
+      myImgAnchor.appendChild(myImg);
+
       myH3 = document.createElement("h3");
-      myH3.innerHTML = tweets[i].from_user_name;
-      myH3.innerHTML += " <span class='username'>@" + tweets[i].from_user + "</span>";
+
+      username = document.createElement('a');
+      username.className = 'username';
+      username.href = usernameUrl;
+      username.innerHTML = tweets[i].from_user_name;
+
+      display_name = document.createElement('a');
+      display_name.className = 'display_name';
+      display_name.href = usernameUrl;
+      display_name.innerHTML = "@" + tweets[i].from_user;
+
+      spacer = document.createElement('span');
+      spacer.innerHTML = ' ';
+
+      myH3.appendChild(username);
+      myH3.appendChild(spacer);
+      myH3.appendChild(display_name);
+
+      assignClick.call(username, usernameUrl);
+      assignClick.call(display_name, usernameUrl);
+      assignClick.call(myImgAnchor, usernameUrl);
 
       myText = document.createElement("div");
+      myText.className = 'text';
       myText.innerHTML = tweets[i].text;
-      myText.innerHTML += "<div class='stamp'>" + prettyDate(tweets[i].created_at) + "</div>";
+      myText.innerHTML += "<div class='timeago'>" + prettyDate(tweets[i].created_at) + "</div>";
 
       myDiv.appendChild(myH3);
-      myDiv.appendChild(myImg);
+      myDiv.appendChild(myImgAnchor);
       myDiv.appendChild(myText);
 
       document.body.appendChild(myDiv);
@@ -90,6 +124,12 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // Helpers
+
+function assignClick(url) {
+  this.addEventListener("click", function() {
+    chrome.tabs.create({'url': url});
+  });
+}
 
 // Takes an ISO time and returns a string representing how
 // long ago the date represents.
